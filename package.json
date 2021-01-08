@@ -6,7 +6,7 @@
   "author": "Patrick Pires <patrick@softbox.com.br>",
   "license": "MIT",
   "scripts": {
-    "start": "./node_modules/.bin/env-cmd ./.env nodemon src/index.js",
+    "start": "./node_modules/.bin/env-cmd nodemon src/index.js",
     "start:prod": "node src/index.js"
   },
   "dependencies": {
