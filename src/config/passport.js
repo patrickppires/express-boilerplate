@@ -1,5 +1,7 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt")
 const { tokenTypes } = require("./tokens")
+const AccessDenied = require("../errors/AccessDenied")
+const httpStatus = require("http-status")
 // const { User } = require("../models")
 const { APP_SECRET } = process.env
 
@@ -11,7 +13,10 @@ const jwtOptions = {
 const jwtVerify = async (payload, done) => {
     try {
         if (payload.type !== tokenTypes.ACCESS) {
-            throw new Error("Invalid token type")
+            throw new AccessDenied(
+                httpStatus.UNAUTHORIZED,
+                "Invalid token type"
+            )
         }
         const user = true // fix after create models
         if (!user) {

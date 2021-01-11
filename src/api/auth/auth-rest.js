@@ -1,4 +1,4 @@
-const BASE_URL = "/api/v1/user"
+const BASE_URL = "/api/v1/auth"
 
 const validate = require("../../middlewares/validate")
 

@@ -1,12 +1,15 @@
 const fs = require("fs")
 const path = require("path")
 const Sequelize = require("sequelize")
-const config = require("../../config/database.js")
+const config = require("../config/database.js")
 
 const db = {}
 const sequelize = new Sequelize(config)
 
 const defaultPath = `${__dirname}/../models/`
+
+db.sequelize = sequelize
+db.Sequelize = Sequelize
 
 fs.readdirSync(defaultPath)
     .filter(
@@ -16,17 +19,10 @@ fs.readdirSync(defaultPath)
             file.slice(-3) === ".js"
     )
     .forEach((file) => {
-        const model = sequelize.import(path.join(defaultPath, file))
-        db[model.name] = model
+        db[file.substr(0, file.lastIndexOf("."))] = require(path.join(
+            defaultPath,
+            file
+        ))(sequelize, Sequelize)
     })
-
-Object.keys(db).forEach((modelName) => {
-    if (db[modelName].associate) {
-        db[modelName].associate(db)
-    }
-})
-
-db.sequelize = sequelize
-db.Sequelize = Sequelize
 
 module.exports = db

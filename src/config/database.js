@@ -1,7 +1,8 @@
 module.exports = {
-    username: "root",
-    password: "root",
-    database: "crud_sequelize",
+    username: "express-boilerplate",
+    password: "express-boilerplate",
+    database: "express-boilerplate",
     host: "127.0.0.1",
-    dialect: "pg",
+    dialect: "postgres",
+    logging: false,
 }

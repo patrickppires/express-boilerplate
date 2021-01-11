@@ -8,10 +8,14 @@ const passport = require("passport")
 const { jwtStrategy } = require("./config/passport")
 const { authLimiter } = require("./middlewares/rate-limiter")
 const morgan = require("./config/morgan")
+const errorGlobalHandler = require("./middlewares/error")
+const db = require("./config/sequelize")
 
 const routes = require("./utils/routes")
 
 const app = express()
+
+db.sequelize.sync()
 
 if (config.env !== "test") {
     app.use(morgan.successHandler)
@@ -34,5 +38,7 @@ app.use(passport.initialize())
 passport.use("jwt", jwtStrategy)
 
 routes(app)
+
+errorGlobalHandler(app)
 
 module.exports = app
